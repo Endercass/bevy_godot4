@@ -87,7 +87,7 @@ impl Clone for ErasedGdResource {
         maybe_inc_ref_opt::<Resource>(&mut Gd::try_from_instance_id(self.resource_id).ok());
 
         Self {
-            resource_id: self.resource_id.clone(),
+            resource_id: self.resource_id,
         }
     }
 }

@@ -12,7 +12,7 @@ pub struct SceneTreeRef<'w, 's> {
     phantom: PhantomData<&'s ()>,
 }
 
-impl<'w, 's> SceneTreeRef<'w, 's> {
+impl SceneTreeRef<'_, '_> {
     pub fn get(&mut self) -> Gd<SceneTree> {
         self.gd.0.clone()
     }

@@ -50,7 +50,7 @@ pub struct SystemDeltaTimer<'w, 's> {
     marker: PhantomData<&'w ()>,
 }
 
-impl<'w, 's> SystemDeltaTimer<'w, 's> {
+impl SystemDeltaTimer<'_, '_> {
     /// Returns the time passed since the last invocation
     pub fn delta(&mut self) -> Duration {
         let now = Instant::now();
