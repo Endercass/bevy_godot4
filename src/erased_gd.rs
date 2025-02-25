@@ -1,4 +1,4 @@
-use bevy::prelude::Component;
+use bevy::prelude::*;
 use godot::{
     classes::{Node, Object, Resource},
     obj::{bounds::DynMemory, Bounds, Gd, GodotClass, Inherits, InstanceId, RawGd},
@@ -37,6 +37,7 @@ impl ErasedGd {
 }
 
 #[derive(Debug, bevy::prelude::Resource)]
+#[cfg_attr(feature = "assets", derive(TypePath, bevy::asset::Asset))]
 pub struct ErasedGdResource {
     resource_id: InstanceId,
 }

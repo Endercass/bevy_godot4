@@ -3,12 +3,13 @@ use std::str::FromStr;
 use crate::prelude::*;
 use bevy::{
     app::{App, Plugin, PostUpdate},
-    prelude::{Commands, Component, Entity, Query, Without},
+    prelude::*,
     utils::tracing,
 };
 use godot::{
     builtin::{GString, Transform2D, Transform3D, Vector2, Vector3},
     classes::{Node2D, Node3D, PackedScene, ResourceLoader},
+    prelude::*,
 };
 
 pub(crate) struct PackedScenePlugin;
@@ -111,11 +112,11 @@ fn spawn_scene(
         let packed_scene = match &mut scene.resource {
             GodotSceneResource::Resource(res) => res.get(),
             GodotSceneResource::Path(path) => ResourceLoader::singleton()
-                .load(GString::from_str(path).expect("path to be a valid GString"))
+                .load(path.as_str())
                 .expect("packed scene to load"),
             #[cfg(feature = "assets")]
             GodotSceneResource::Handle(handle) => assets
-                .get_mut(&handle)
+                .get_mut(handle)
                 .expect("packed scene to exist in assets")
                 .get(),
         };
@@ -130,9 +131,9 @@ fn spawn_scene(
             .get()
             .get_root()
             .unwrap()
-            .get_node_or_null("BevyAppSingleton".into())
+            .get_node_or_null(&NodePath::from_str("BevyAppSingleton").unwrap())
         {
-            Some(mut app) => app.add_child(instance.clone()),
+            Some(mut app) => app.add_child(&instance.clone()),
             None => {
                 tracing::error!("attempted to add a child to the BevyAppSingleton autoload, but the BevyAppSingleton autoload wasn't found");
                 return;
